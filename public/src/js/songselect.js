@@ -141,7 +141,9 @@ class SongSelect{
 				return a.id > b.id ? 1 : -1
 			}
 		})
-		if (localStorage.getItem("titlesort") ?? "false" === "true") {
+		const titlesort = localStorage.getItem("titlesort") ?? "false";
+		if (titlesort === "true") {
+			console.log("sorting...")
 			this.songs.sort((a, b) => a.title.localeCompare(b.title));
 		}
 		if(assets.songs.length){
