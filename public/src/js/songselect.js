@@ -143,7 +143,6 @@ class SongSelect{
 		})
 		const titlesort = localStorage.getItem("titlesort") ?? "false";
 		if (titlesort === "true") {
-			console.log("sorting...")
 			this.songs.sort((a, b) => a.title.localeCompare(b.title));
 		}
 		if(assets.songs.length){
