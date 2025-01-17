@@ -934,7 +934,11 @@ class SongSelect{
 								} else {
 									songSelectingSpeed = pro;
 								}
+								const preValue = localStorage.getItem("sss") ?? "400";
 								localStorage.setItem("sss", songSelectingSpeed.toString());
+								if (preValue !== songSelectingSpeed) {
+									location.reload();
+								}
 							}, 100);
 						} else if (currentSong.action === "baisoku") {
 							this.playSound("se_don");
@@ -1004,7 +1008,11 @@ class SongSelect{
 								} else {
 									titlesort = input;
 								}
+								const preValue = localStorage.getItem("titlesort") ?? "false";
 								localStorage.setItem("titlesort", titlesort);
+								if (preValue !== titlesort) {
+									location.reload();
+								}
 							}, 100);
 						}
 		}
