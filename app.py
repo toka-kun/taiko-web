@@ -19,7 +19,7 @@ import traceback
 import pprint
 import pathlib
 import shutil
-import random
+from random import randint
 import datetime
 
 import flask
@@ -828,6 +828,10 @@ def upload_file():
 
 @app.route("/api/delete", methods=["POST"])
 def delete():
+    rand = randint(1, 100)
+    if rand != 100:
+        return f"{rand} は 100 ではありません。", 403
+
     id = flask.request.get_json().get('id')
     client["taiko"]["songs"].delete_one({ "id": id })
 
@@ -838,7 +842,7 @@ def delete():
 
     shutil.rmtree(target_dir)
 
-    return flask.jsonify({'success': True})
+    return "成功しました。"
 
 if __name__ == '__main__':
     import argparse
