@@ -19,8 +19,7 @@ import traceback
 import pprint
 import pathlib
 import shutil
-from random import randint
-import datetime
+from flask_limiter import Limiter
 
 import flask
 import nkf
@@ -46,6 +45,30 @@ def take_config(name, required=False):
         return None
 
 app = Flask(__name__)
+
+def get_remote_address() -> str:
+    return flask.request.headers.get("CF-Connecting-IP") or flask.request.headers.get("X-Forwarded-For") or flask.request.remote_addr or "127.0.0.1"
+
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    # default_limits=[],
+    # storage_uri="memory://",
+    # Redis
+    storage_uri=os.environ.get("REDIS_URI", "redis://127.0.0.1:6379/"),
+    # Redis cluster
+    # storage_uri="redis+cluster://localhost:7000,localhost:7001,localhost:70002",
+    # Memcached
+    # storage_uri="memcached://localhost:11211",
+    # Memcached Cluster
+    # storage_uri="memcached://localhost:11211,localhost:11212,localhost:11213",
+    # MongoDB
+    # storage_uri="mongodb://localhost:27017",
+    # Etcd
+    # storage_uri="etcd://localhost:2379",
+    strategy="fixed-window", # or "moving-window"
+)
+
 client = MongoClient(host=os.environ.get("TAIKO_WEB_MONGO_HOST") or take_config('MONGO', required=True)['host'])
 basedir = take_config('BASEDIR') or '/'
 
@@ -827,11 +850,8 @@ def upload_file():
     return flask.jsonify({'success': True})
 
 @app.route("/api/delete", methods=["POST"])
+@limiter.limit("1 per day")
 def delete():
-    rand = randint(1, 100)
-    if rand != 100:
-        return f"{rand} は 100 ではありません。", 403
-
     id = flask.request.get_json().get('id')
     client["taiko"]["songs"].delete_one({ "id": id })
 
