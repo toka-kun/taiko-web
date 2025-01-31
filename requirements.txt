@@ -6,7 +6,7 @@ Flask-Session==0.8.0
 Flask-WTF==1.2.2
 gunicorn==23.0.0
 jsonschema==4.23.0
-pymongo==4.10.1
+pymongo==4.11
 redis==5.2.1
 requests==2.32.3
 websockets==14.2
