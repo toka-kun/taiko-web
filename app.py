@@ -299,6 +299,7 @@ def route_admin_songs_new():
 
 
 @app.route(basedir + 'admin/songs/new', methods=['POST'])
+@limiter.limit("4 per hour")
 @admin_required(level=100)
 def route_admin_songs_new_post():
     output = {'title_lang': {}, 'subtitle_lang': {}, 'courses': {}}
@@ -351,6 +352,7 @@ def route_admin_songs_new_post():
 
 
 @app.route(basedir + 'admin/songs/<int:id>', methods=['POST'])
+@limiter.limit("4 per hour")
 @admin_required(level=50)
 def route_admin_songs_id_post(id):
     song = db.songs.find_one({'id': id})
@@ -404,6 +406,7 @@ def route_admin_songs_id_post(id):
 
 
 @app.route(basedir + 'admin/songs/<int:id>/delete', methods=['POST'])
+@limiter.limit("1 per day")
 @admin_required(level=100)
 def route_admin_songs_id_delete(id):
     song = db.songs.find_one({'id': id})
@@ -424,6 +427,7 @@ def route_admin_users():
 
 
 @app.route(basedir + 'admin/users', methods=['POST'])
+@limiter.limit("4 per hour")
 @admin_required(level=50)
 def route_admin_users_post():
     admin_name = session.get('username')
@@ -518,6 +522,7 @@ def route_api_config():
 
 
 @app.route(basedir + 'api/register', methods=['POST'])
+@limiter.limit("4 per hour")
 def route_api_register():
     data = request.get_json()
     if not schema.validate(data, schema.register):
@@ -559,6 +564,7 @@ def route_api_register():
 
 
 @app.route(basedir + 'api/login', methods=['POST'])
+@limiter.limit("4 per hour")
 def route_api_login():
     data = request.get_json()
     if not schema.validate(data, schema.login):
@@ -586,6 +592,7 @@ def route_api_login():
 
 
 @app.route(basedir + 'api/logout', methods=['POST'])
+@limiter.limit("4 per hour")
 @login_required
 def route_api_logout():
     session.clear()
@@ -593,6 +600,7 @@ def route_api_logout():
 
 
 @app.route(basedir + 'api/account/display_name', methods=['POST'])
+@limiter.limit("4 per hour")
 @login_required
 def route_api_account_display_name():
     data = request.get_json()
@@ -613,6 +621,7 @@ def route_api_account_display_name():
 
 
 @app.route(basedir + 'api/account/don', methods=['POST'])
+@limiter.limit("4 per hour")
 @login_required
 def route_api_account_don():
     data = request.get_json()
@@ -638,6 +647,7 @@ def route_api_account_don():
 
 
 @app.route(basedir + 'api/account/password', methods=['POST'])
+@limiter.limit("4 per hour")
 @login_required
 def route_api_account_password():
     data = request.get_json()
@@ -666,6 +676,7 @@ def route_api_account_password():
 
 
 @app.route(basedir + 'api/account/remove', methods=['POST'])
+@limiter.limit("1 per day")
 @login_required
 def route_api_account_remove():
     data = request.get_json()
@@ -685,6 +696,7 @@ def route_api_account_remove():
 
 
 @app.route(basedir + 'api/scores/save', methods=['POST'])
+@limiter.limit("4 per hour")
 @login_required
 def route_api_scores_save():
     data = request.get_json()
@@ -796,6 +808,7 @@ def send_upload(ref):
     return cache_wrap(flask.send_from_directory("public/upload", ref), 3600)
 
 @app.route("/api/upload", methods=["POST"])
+@limiter.limit("4 per hour")
 def upload_file():
     try:
         # POSTリクエストにファイルの部分がない場合
