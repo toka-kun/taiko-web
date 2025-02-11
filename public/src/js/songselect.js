@@ -150,7 +150,8 @@ class SongSelect{
 		if (titlesort === "true") {
 			this.songs.sort((a, b) => a.title.localeCompare(b.title));
 		}
-		}, songIndex + 50);
+		}, songIndex + 100);
+		setTimeout(() => {
 		if(assets.songs.length){
 			this.songs.push({
 				title: strings.back,
@@ -284,6 +285,7 @@ class SongSelect{
 			skin: this.songSkin.back,
 			action: "back"
 		})
+		}, songIndex + 200);
 		
 		this.songAsset = {
 			marginTop: 104,
