@@ -285,13 +285,18 @@ class SongSelect{
 			skin: this.songSkin.back,
 			action: "back"
 		})
+
+		let backIndex = this.songs.findIndex((obj) => obj.action === "back");
+		if (backIndex !== -1) {
+			this.songs.splice(backIndex, 1);
+		}
 		}, songIndex + 200);
 
 		// エラーを回避するためにもどるボタンをあらかじめ追加する
 		this.songs.push({
 			title: strings.back,
 			skin: this.songSkin.back,
-			action: "back"
+			action: "back",
 		});
 
 		this.songAsset = {
