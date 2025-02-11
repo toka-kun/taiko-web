@@ -286,7 +286,14 @@ class SongSelect{
 			action: "back"
 		})
 		}, songIndex + 200);
-		
+
+		// エラーを回避するためにもどるボタンをあらかじめ追加する
+		this.songs.push({
+			title: strings.back,
+			skin: this.songSkin.back,
+			action: "back"
+		});
+
 		this.songAsset = {
 			marginTop: 104,
 			marginLeft: 18,
