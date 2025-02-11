@@ -129,7 +129,7 @@ class SongSelect{
 			song.subtitlePrepared = subtitle ? fuzzysort.prepare(this.search.normalizeString(subtitle)) : null
 			setTimeout(() => {
 				this.songs.push(this.addSong(song))
-			}, songIndex * 50);
+			}, songIndex);
 			songIndex++;
 		}
 		setTimeout(() => {
@@ -150,7 +150,7 @@ class SongSelect{
 		if (titlesort === "true") {
 			this.songs.sort((a, b) => a.title.localeCompare(b.title));
 		}
-		}, songIndex * 50 + 50);
+		}, songIndex + 50);
 		if(assets.songs.length){
 			this.songs.push({
 				title: strings.back,
