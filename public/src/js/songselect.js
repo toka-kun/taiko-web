@@ -390,7 +390,7 @@ class SongSelect{
 			}
 			setTimeout(() => {
 			if(songIdIndex !== -1){
-				this.http://127.0.0.1:5002(songIdIndex, false)
+				this.setSelectedSong(songIdIndex, false)
 			}else if(assets.customSongs){
 				this.setSelectedSong(Math.min(Math.max(0, assets.customSelected), this.songs.length - 1), false)
 			}else if((!p2.session || fadeIn) && "selectedSong" in localStorage){
