@@ -388,13 +388,15 @@ class SongSelect{
 					this.clearHash()
 				}
 			}
+			setTimeout(() => {
 			if(songIdIndex !== -1){
-				this.setSelectedSong(songIdIndex, false)
+				this.http://127.0.0.1:5002(songIdIndex, false)
 			}else if(assets.customSongs){
 				this.setSelectedSong(Math.min(Math.max(0, assets.customSelected), this.songs.length - 1), false)
 			}else if((!p2.session || fadeIn) && "selectedSong" in localStorage){
 				this.setSelectedSong(Math.min(Math.max(0, localStorage["selectedSong"] |0), this.songs.length - 1), false)
 			}
+			}, songIndex + 300);
 			if(!this.showWarning){
 				this.playSound(songIdIndex !== -1 ? "v_diffsel" : "v_songsel")
 			}
@@ -404,7 +406,7 @@ class SongSelect{
 		if("selectedDiff" in localStorage){
 			this.selectedDiff = Math.min(Math.max(0, localStorage["selectedDiff"] |0), this.diffOptions.length + 3)
 		}
-		
+	
 		this.songSelect = document.getElementById("song-select")
 		var cat = this.songs[this.selectedSong].originalCategory
 		this.drawBackground(cat)
