@@ -121,18 +121,13 @@ class SongSelect{
 		this.search = new Search(this)
 
 		this.songs = []
-		var songIndex = 0;
 		for(let song of assets.songs){
 			var title = this.getLocalTitle(song.title, song.title_lang)
 			song.titlePrepared = title ? fuzzysort.prepare(this.search.normalizeString(title)) : null
 			var subtitle = this.getLocalTitle(title === song.title ? song.subtitle : "", song.subtitle_lang)
 			song.subtitlePrepared = subtitle ? fuzzysort.prepare(this.search.normalizeString(subtitle)) : null
-			setTimeout(() => {
-				this.songs.push(this.addSong(song))
-			}, songIndex);
-			songIndex++;
+			this.songs.push(this.addSong(song))
 		}
-		setTimeout(() => {
 		this.songs.sort((a, b) => {
 			var catA = a.originalCategory in this.songSkin ? this.songSkin[a.originalCategory] : this.songSkin.default
 			var catB = b.originalCategory in this.songSkin ? this.songSkin[b.originalCategory] : this.songSkin.default
@@ -150,8 +145,6 @@ class SongSelect{
 		if (titlesort === "true") {
 			this.songs.sort((a, b) => a.title.localeCompare(b.title));
 		}
-		}, songIndex + 100);
-		setTimeout(() => {
 		if(assets.songs.length){
 			this.songs.push({
 				title: strings.back,
@@ -285,20 +278,7 @@ class SongSelect{
 			skin: this.songSkin.back,
 			action: "back"
 		})
-
-		let backIndex = this.songs.findIndex((obj) => obj.action === "back");
-		if (backIndex !== -1) {
-			this.songs.splice(backIndex, 1);
-		}
-		}, songIndex + 200);
-
-		// エラーを回避するためにもどるボタンをあらかじめ追加する
-		this.songs.push({
-			title: strings.back,
-			skin: this.songSkin.back,
-			action: "back",
-		});
-
+		
 		this.songAsset = {
 			marginTop: 104,
 			marginLeft: 18,
@@ -388,7 +368,6 @@ class SongSelect{
 					this.clearHash()
 				}
 			}
-			setTimeout(() => {
 			if(songIdIndex !== -1){
 				this.setSelectedSong(songIdIndex, false)
 			}else if(assets.customSongs){
@@ -396,7 +375,6 @@ class SongSelect{
 			}else if((!p2.session || fadeIn) && "selectedSong" in localStorage){
 				this.setSelectedSong(Math.min(Math.max(0, localStorage["selectedSong"] |0), this.songs.length - 1), false)
 			}
-			}, songIndex + 300);
 			if(!this.showWarning){
 				this.playSound(songIdIndex !== -1 ? "v_diffsel" : "v_songsel")
 			}
@@ -406,7 +384,7 @@ class SongSelect{
 		if("selectedDiff" in localStorage){
 			this.selectedDiff = Math.min(Math.max(0, localStorage["selectedDiff"] |0), this.diffOptions.length + 3)
 		}
-	
+		
 		this.songSelect = document.getElementById("song-select")
 		var cat = this.songs[this.selectedSong].originalCategory
 		this.drawBackground(cat)
