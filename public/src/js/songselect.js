@@ -121,13 +121,18 @@ class SongSelect{
 		this.search = new Search(this)
 
 		this.songs = []
+		var songIndex = 0;
 		for(let song of assets.songs){
 			var title = this.getLocalTitle(song.title, song.title_lang)
 			song.titlePrepared = title ? fuzzysort.prepare(this.search.normalizeString(title)) : null
 			var subtitle = this.getLocalTitle(title === song.title ? song.subtitle : "", song.subtitle_lang)
 			song.subtitlePrepared = subtitle ? fuzzysort.prepare(this.search.normalizeString(subtitle)) : null
-			this.songs.push(this.addSong(song))
+			setTimeout(() => {
+				this.songs.push(this.addSong(song))
+			}, songIndex * 50);
+			songIndex++;
 		}
+		setTimeout(() => {
 		this.songs.sort((a, b) => {
 			var catA = a.originalCategory in this.songSkin ? this.songSkin[a.originalCategory] : this.songSkin.default
 			var catB = b.originalCategory in this.songSkin ? this.songSkin[b.originalCategory] : this.songSkin.default
@@ -145,6 +150,7 @@ class SongSelect{
 		if (titlesort === "true") {
 			this.songs.sort((a, b) => a.title.localeCompare(b.title));
 		}
+		}, songIndex * 50 + 50);
 		if(assets.songs.length){
 			this.songs.push({
 				title: strings.back,
