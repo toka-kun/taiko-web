@@ -20,6 +20,7 @@ import pprint
 import pathlib
 import shutil
 from flask_limiter import Limiter
+from datetime import datetime
 
 import flask
 import nkf
@@ -247,7 +248,12 @@ def is_hex(input):
 @app.route(basedir)
 def route_index():
     version = get_version()
-    return render_template('index.html', version=version, config=get_config())
+
+    now = datetime.now()
+    year = now.year
+    month = now.month
+
+    return render_template('index.html', version=version, config=get_config(), year=year, month=month)
 
 
 @app.route(basedir + 'api/csrftoken')
