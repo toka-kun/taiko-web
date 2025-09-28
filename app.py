@@ -252,8 +252,9 @@ def route_index():
     now = datetime.now()
     year = now.year
     month = now.month
+    day = now.day
 
-    return render_template('index.html', version=version, config=get_config(), year=year, month=month)
+    return render_template('index.html', version=version, config=get_config(), year=year, month=month, day=day)
 
 
 @app.route(basedir + 'api/csrftoken')
